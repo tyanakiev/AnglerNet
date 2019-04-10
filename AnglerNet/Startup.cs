@@ -38,8 +38,7 @@ namespace AnglerNet
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -47,10 +46,44 @@ namespace AnglerNet
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
+        }
+
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles   
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "User"};
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    //create the roles and seed them to the database: Question 1  
+                    roleResult = await RoleManager.CreateAsync(new ApplicationRole(roleName));
+                }
+            }
+
+            ApplicationUser user = await UserManager.FindByEmailAsync("trifon.yanakiev@gmail.com");
+
+            if (user == null)
+            {
+                user = new ApplicationUser()
+                {
+                    UserName = "trifon.yanakiev@gmail.com",
+                    Email = "trifon.yanakiev@gmail.com",
+                };
+                await UserManager.CreateAsync(user, "Test@123");
+            }
+            await UserManager.AddToRoleAsync(user, "Admin");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +108,8 @@ namespace AnglerNet
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateRoles(serviceProvider).Wait();
         }
     }
 }
