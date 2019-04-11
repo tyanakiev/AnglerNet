@@ -148,9 +148,7 @@ namespace AnglerNet.Models
 
             modelBuilder.Entity<Conversation>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DateLatest).HasColumnType("date");
 
@@ -167,19 +165,17 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.UserIdOneNavigation)
                     .WithMany(p => p.ConversationUserIdOneNavigation)
                     .HasForeignKey(d => d.UserIdOne)
-                    .HasConstraintName("FK__Conversat__UserI__114A936A");
+                    .HasConstraintName("FK__Conversat__UserI__50FB042B");
 
                 entity.HasOne(d => d.UserIdTwoNavigation)
                     .WithMany(p => p.ConversationUserIdTwoNavigation)
                     .HasForeignKey(d => d.UserIdTwo)
-                    .HasConstraintName("FK__Conversat__UserI__123EB7A3");
+                    .HasConstraintName("FK__Conversat__UserI__51EF2864");
             });
 
             modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ConversationId).HasColumnName("ConversationID");
 
@@ -204,24 +200,22 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.Conversation)
                     .WithMany(p => p.Message)
                     .HasForeignKey(d => d.ConversationId)
-                    .HasConstraintName("FK__Message__Convers__151B244E");
+                    .HasConstraintName("FK__Message__Convers__54CB950F");
 
                 entity.HasOne(d => d.UserIdRecieveNavigation)
                     .WithMany(p => p.MessageUserIdRecieveNavigation)
                     .HasForeignKey(d => d.UserIdRecieve)
-                    .HasConstraintName("FK__Message__UserID___17036CC0");
+                    .HasConstraintName("FK__Message__UserID___56B3DD81");
 
                 entity.HasOne(d => d.UserIdSendNavigation)
                     .WithMany(p => p.MessageUserIdSendNavigation)
                     .HasForeignKey(d => d.UserIdSend)
-                    .HasConstraintName("FK__Message__UserID___160F4887");
+                    .HasConstraintName("FK__Message__UserID___55BFB948");
             });
 
             modelBuilder.Entity<Photo>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DateAdded).HasColumnType("date");
 
@@ -243,14 +237,12 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Photo)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Photo__UserID__0B91BA14");
+                    .HasConstraintName("FK__Photo__UserID__4B422AD5");
             });
 
             modelBuilder.Entity<Profile>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Info)
                     .HasMaxLength(1024)
@@ -273,14 +265,12 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Profile)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Profile__UserID__29221CFB");
+                    .HasConstraintName("FK__Profile__UserID__4865BE2A");
             });
 
             modelBuilder.Entity<Relationship>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
@@ -295,19 +285,17 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.Friend)
                     .WithMany(p => p.RelationshipFriend)
                     .HasForeignKey(d => d.FriendId)
-                    .HasConstraintName("FK__Relations__Frien__05D8E0BE");
+                    .HasConstraintName("FK__Relations__Frien__4589517F");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.RelationshipUser)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Relations__UserI__04E4BC85");
+                    .HasConstraintName("FK__Relations__UserI__44952D46");
             });
 
             modelBuilder.Entity<Wall>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Content)
                     .IsRequired()
@@ -323,7 +311,7 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Wall)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Wall__UserID__0E6E26BF");
+                    .HasConstraintName("FK__Wall__UserID__4E1E9780");
             });
         }
     }
