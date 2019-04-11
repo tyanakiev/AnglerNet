@@ -74,6 +74,7 @@ namespace AnglerNet.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { User = Input.User, UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -89,7 +90,6 @@ namespace AnglerNet.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    await _userManager.AddToRoleAsync(user, "User");
                     AnglerNetContext _context = new AnglerNetContext();
                     Profile newProfile = new Profile();
                     newProfile.UserId = user.Id;

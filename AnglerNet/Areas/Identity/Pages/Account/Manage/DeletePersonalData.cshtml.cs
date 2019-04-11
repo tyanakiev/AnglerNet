@@ -51,6 +51,7 @@ namespace AnglerNet.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
+            AnglerNetContext _context = new AnglerNetContext();
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {

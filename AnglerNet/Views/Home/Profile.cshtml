@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Profile
+@{
     ViewData["Title"] = "Contact";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-PROFILE
+@Model.Username
+@Model.Info
