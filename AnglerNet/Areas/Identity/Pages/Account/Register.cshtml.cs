@@ -90,6 +90,12 @@ namespace AnglerNet.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _userManager.AddToRoleAsync(user, "User");
+                    AnglerNetContext _context = new AnglerNetContext();
+                    Profile newProfile = new Profile();
+                    newProfile.UserId = user.Id;
+                    newProfile.Username = user.User;
+                    _context.Profile.Add(newProfile);
+                    await _context.SaveChangesAsync();
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

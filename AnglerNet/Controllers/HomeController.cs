@@ -15,16 +15,23 @@ namespace AnglerNet.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Messages()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your Messages page.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Profile()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Your profile page.";
+
+            return View();
+        }
+
+        public IActionResult Maps()
+        {
+            ViewData["Message"] = "Your Maps page.";
 
             return View();
         }

@@ -45,8 +45,20 @@ namespace AnglerNet
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizePage("/Home/Profile");
+                    options.Conventions.AuthorizePage("/Home/Messages");
+                    options.Conventions.AuthorizePage("/Home/Map");
+                    options.Conventions.AllowAnonymousToPage("/Index");
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("User",
+                     policy => policy.RequireRole("Admin", "User"));
+            });
         }
 
 
@@ -67,19 +79,6 @@ namespace AnglerNet
                     roleResult = await RoleManager.CreateAsync(new ApplicationRole(roleName));
                 }
             }
-
-            ApplicationUser user = await UserManager.FindByEmailAsync("trifon.yanakiev@gmail.com");
-
-            if (user == null)
-            {
-                user = new ApplicationUser()
-                {
-                    UserName = "trifon.yanakiev@gmail.com",
-                    Email = "trifon.yanakiev@gmail.com",
-                };
-                await UserManager.CreateAsync(user, "Test@123");
-            }
-            await UserManager.AddToRoleAsync(user, "Admin");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,31 +13,57 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Profile</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Messages</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Maps</a></li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item active">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "User")).Succeeded)
+                    {
+                        <a asp-area="" asp-controller="Home" asp-action="Profile" class="nav-link">Profile</a>
+                    }
+                </li>
+                <li class="nav-item active">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "User")).Succeeded)
+                    {
+                        <a asp-area="" asp-controller="Home" asp-action="Messages" class="nav-link">Messages</a>
+                    }
+                </li>
+                <li class="nav-item active">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "User")).Succeeded)
+                    {
+                        <a asp-area="" asp-controller="Home" asp-action="Maps" class="nav-link">Maps</a>
+                    }
+                </li>
+            </ul>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "User")).Succeeded)
+            {
+                <form class="mx-2 my-auto d-inline mr-auto col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control border border-right-0" placeholder="Search...">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-info border border-left-0" type="button">
+                                <i class="fa fa-search">Search</i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            }
+
+            <partial name="_LoginPartial" />
         </div>
     </nav>
 
@@ -42,10 +71,10 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - AnglerNet</p>
-        </footer>
+            <div class="fixed-bottom">
+                <hr />
+                <p>&copy; 2019 - AnglerNet</p>
+        </div>
     </div>
 
     <environment include="Development">
@@ -60,7 +89,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"

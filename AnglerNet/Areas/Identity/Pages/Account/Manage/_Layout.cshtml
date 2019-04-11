@@ -1,18 +1,20 @@
 ﻿@{ 
-    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage your account</h2>
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+<div class="card border-info mt-5 ml-5 mb-3" style="max-width: 64rem;">
+    <div class="card-header">Manage your account</div>
+    <div class="card-body text-info">
+        <h4>Change your account settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </div>
