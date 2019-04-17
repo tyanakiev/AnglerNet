@@ -33,6 +33,8 @@ namespace AnglerNet.Controllers
             Profile currentProfile = new Profile();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             currentProfile = _context.Profile.Where(o=>o.UserId == userId).FirstOrDefault();
+            List<Feed> userFeed = _context.Feed.Where(o => o.UserId == userId).ToList();
+            ViewBag.UserFeed = userFeed;
             return View(currentProfile);
         }
 

@@ -2,8 +2,42 @@
 @{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-@Model.Username
-@Model.Info
+  <div class="row">
+    <div class="col-md-4 mt-5">
+      <img src="~/images/no-image.png"  alt="" class="rounded float-left profile-picture">
+    </div> 
+    <div class="col mt-5">
+      <blockquote>
+          Name: <h6>@Model.Username</h6>
+      </blockquote>
+      <p>
+          Info: @Model.Info
+      </p>
+    </div>
+  </div>
+  <div class="row">
+      @if (ViewBag.UserFeed.Count < 1)
+      {
+          <div class="card text-center feed">
+              <div class="card-body">
+                  <p class="card-text">You have nothing on your wall.</p>
+              </div>
+          </div>
+      }
+      else
+      {
+          @foreach (var feed in ViewBag.UserFeed)
+          {
+              <div class="card text-center feed">
+                  <div class="card-body">
+                      <p class="card-text">@feed.Content</p>
+                  </div>
+                  <div class="card-footer text-muted">
+                      Created: @feed.DateAdded
+                  </div>
+              </div>
+          }
+      }
+
+  </div>

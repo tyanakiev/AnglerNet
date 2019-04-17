@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AnglerNet.Models
 {
-    public partial class Wall
+    public partial class Feed
     {
         public int Id { get; set; }
         public string UserId { get; set; }

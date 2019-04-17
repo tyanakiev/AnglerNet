@@ -26,6 +26,15 @@
     width: 60%;
 }
 
+.profile-picture{
+    width:100%;
+}
+
+.feed {
+    width: 100%;
+    margin: 5% 10% 0 10%;
+
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
