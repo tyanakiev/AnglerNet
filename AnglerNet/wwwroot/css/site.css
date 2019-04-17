@@ -5,6 +5,16 @@
     padding-right: 15px;
 }
 
+body {
+    background: url("../images/background.jpg") no-repeat !important;
+    min-height: 1200px;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;
@@ -30,10 +40,38 @@
     width:100%;
 }
 
+.navbar{
+    opacity: 0.9 !important;
+}
+
 .feed {
     width: 100%;
     margin: 5% 10% 0 10%;
+}
 
+.user-form{
+    margin-left: 15%;
+    width: 70%;
+}
+
+.carousel-control-next:hover {
+    background: #d8d7d7;
+}
+
+.carousel-control-prev:hover {
+    background: #d8d7d7;
+}
+
+.carousel-caption {
+    background: #d8d7d7;
+    opacity: 0.8;
+    color: black;
+}
+
+.fixed-bottom{
+    opacity: 0.7;
+    text-align: center;
+    padding-top: 10px;
 }
 
 /* Hide/rearrange for smaller screens */
