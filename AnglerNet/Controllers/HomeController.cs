@@ -35,6 +35,9 @@ namespace AnglerNet.Controllers
             currentProfile = _context.Profile.Where(o=>o.UserId == userId).FirstOrDefault();
             List<Feed> userFeed = _context.Feed.Where(o => o.UserId == userId).ToList();
             ViewBag.UserFeed = userFeed;
+            ViewBag.Friends = 0;
+            ViewBag.Posts = 0;
+            ViewBag.Locations = 0;
             return View(currentProfile);
         }
 

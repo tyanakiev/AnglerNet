@@ -3,7 +3,7 @@
     ViewData["Title"] = "Contact";
 }
 
-  <div class="row">
+  @*<div class="row">
     <div class="col-md-4 mt-5">
       <img src="~/images/no-image.png"  alt="" class="rounded float-left profile-picture">
     </div> 
@@ -40,4 +40,65 @@
           }
       }
 
-  </div>
+  </div>*@
+
+<div class="row my-2 bg-light pt-5">
+    <div class="col-3 order-lg-1 text-center">
+        <img src="~/images/no-image.png" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+        <input type="file" id="file">
+    </div>
+    <div class="col-lg-8 order-lg-2">
+        <div class="tab-content py-4">
+            <div class="tab-pane active" id="profile">
+                <h5 class="mb-3">@Model.Username</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>About</h6>
+                        <p>
+                            @Model.Info
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="badge badge-primary"><i class="fa fa-user"></i> @ViewBag.Friends Friends</span>
+                        <span class="badge badge-success"><i class="fa fa-cog"></i> @ViewBag.Posts Posts</span>
+                        <span class="badge badge-danger"><i class="fa fa-eye"></i> @ViewBag.Locations Locations</span>
+                    </div>
+                    <div class="col">
+                        <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span>Feed</h5>
+                        <div class="input-group feed">
+                            <textarea class="form-control" aria-label="With textarea"></textarea>
+                        </div>
+                        <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity</h5>
+                        <div class="row">
+                            @if (ViewBag.UserFeed.Count < 1)
+                            {
+                                <div class="card text-center feed">
+                                    <div class="card-body">
+                                        <p class="card-text">You have nothing on your wall.</p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var feed in ViewBag.UserFeed)
+                                {
+                                    <div class="card text-center feed">
+                                        <div class="card-body">
+                                            <p class="card-text">@feed.Content</p>
+                                        </div>
+                                        <div class="card-footer text-muted">
+                                            Created: @feed.DateAdded
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
