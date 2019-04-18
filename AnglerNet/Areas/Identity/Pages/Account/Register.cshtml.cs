@@ -94,7 +94,7 @@ namespace AnglerNet.Areas.Identity.Pages.Account
                     Profile newProfile = new Profile();
                     newProfile.UserId = user.Id;
                     newProfile.Username = user.User;
-                    newProfile.PictureUrl = "~/images/no-image.png";
+                    newProfile.PictureUrl = "/images/no-image.png";
                     _context.Profile.Add(newProfile);
                     await _context.SaveChangesAsync();
                     return LocalRedirect(returnUrl);

@@ -12,6 +12,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Data\Migrations\" />
+    <Folder Include="wwwroot\images\avatars\" />
   </ItemGroup>
 
   <ItemGroup>

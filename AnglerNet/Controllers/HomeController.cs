@@ -7,11 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 using AnglerNet.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Web;
 
 namespace AnglerNet.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHostingEnvironment _env;
+        public HomeController(IHostingEnvironment env)
+        {
+            _env = env;
+        }
+
         AnglerNetContext _context = new AnglerNetContext();
         public IActionResult Index()
         {
@@ -38,6 +48,7 @@ namespace AnglerNet.Controllers
             ViewBag.Friends = 0;
             ViewBag.Posts = 0;
             ViewBag.Locations = 0;
+            ViewBag.Avatar = currentProfile.PictureUrl;
             return View(currentProfile);
         }
 
@@ -59,5 +70,35 @@ namespace AnglerNet.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public IActionResult UploadImage(IFormFile picture)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Profile currentProfile = _context.Profile.Where(o => o.UserId == userId).FirstOrDefault();
+
+            if (picture != null)
+            {
+                DirectoryInfo di = Directory.CreateDirectory(Path.Combine(_env.WebRootPath, "images", "avatars", currentProfile.Id.ToString()));
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    try{
+                      file.Delete();
+                    }
+                    catch (IOException e)
+                    {
+                        //Decide what to do with the exception?
+                    }
+
+                }
+                var filename = Path.Combine(_env.WebRootPath, "images", "avatars", currentProfile.Id.ToString(), Path.GetFileNameWithoutExtension(picture.FileName) + DateTime.Now.ToString("yyyyddMHHmmss")+Path.GetExtension(picture.FileName));
+                picture.CopyTo(new FileStream(filename, FileMode.Create));
+                currentProfile.PictureUrl = "/images/avatars/"+ currentProfile.Id.ToString()+ "/" + Path.GetFileName(filename);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Profile", "Home");
+        }
+
     }
 }

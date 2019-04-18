@@ -43,9 +43,16 @@
   </div>*@
 
 <div class="row my-2 bg-light pt-5">
-    <div class="col-3 order-lg-1 text-center">
-        <img src="~/images/no-image.png" class="mx-auto img-fluid img-circle d-block" alt="avatar">
-        <input type="file" id="file">
+    <div class="col-3 order-lg-1 text-center circle-img img-circle">
+        <img src="@ViewBag.Avatar" class="mx-auto img-fluid img-circle d-block img-thumbnail" alt="avatar">
+        <form method="post" action="/Home/UploadImage" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="picture">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <input type="submit" value="Upload"/>
+        </form>
+        
     </div>
     <div class="col-lg-8 order-lg-2">
         <div class="tab-content py-4">
