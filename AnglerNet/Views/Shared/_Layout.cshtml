@@ -34,19 +34,19 @@
                 <li class="nav-item active">
                     @if ((User.Identity.IsAuthenticated))
                     {
-                    <a asp-area="" asp-controller="Home" asp-action="Profile" class="nav-link">Profile</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Profile" class="nav-link">Profile</a>
                     }
                 </li>
                 <li class="nav-item active">
                     @if ((User.Identity.IsAuthenticated))
                     {
-                    <a asp-area="" asp-controller="Home" asp-action="Messages" class="nav-link">Messages</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Messages" class="nav-link">Messages</a>
                     }
                 </li>
                 <li class="nav-item active">
                     @if ((User.Identity.IsAuthenticated))
                     {
-                    <a asp-area="" asp-controller="Home" asp-action="Maps" class="nav-link">Maps</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Maps" class="nav-link">Maps</a>
                     }
                 </li>
             </ul>
@@ -54,7 +54,10 @@
             {
                 <form class="mx-2 my-auto d-inline mr-auto col-md-6">
                     <div class="input-group">
-                        <input type="text" class="form-control border border-right-0" placeholder="Search...">
+                        @*<input type="text" class="form-control border border-right-0" placeholder="Search...">*@
+                        <div id="user_search" class="search-bar">
+                            <input class="typeahead form-control border border-right-0" type="text" placeholder="Search...">
+                        </div>
                         <span class="input-group-append">
                             <button class="btn btn-outline-info border border-left-0" type="button">
                                 <i class="fa fa-search">Search</i>
@@ -72,14 +75,16 @@
 
     <div class="container body-content justify-content-center align-items-center">
         @RenderBody()
-            <div class="fixed-bottom bg-light">     
-                <p>&copy; 2019 - AnglerNet</p>
+        <div class="fixed-bottom bg-light">
+            <p>&copy; 2019 - AnglerNet</p>
         </div>
     </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/typeahead/bloodhound.js"></script>
+        <script src="~/lib/typeahead/typeahead.bundle.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">

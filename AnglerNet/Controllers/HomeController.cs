@@ -36,6 +36,13 @@ namespace AnglerNet.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult ReturnAllUsers()
+        {
+            List<Profile> listOfProfiles = _context.Profile.ToList();
+            return Json(listOfProfiles);
+        }
+
         [Authorize(Roles = "User")]
         public IActionResult Profile()
         {
