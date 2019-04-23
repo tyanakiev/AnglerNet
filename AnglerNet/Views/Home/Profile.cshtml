@@ -5,7 +5,9 @@
 
 <div class="row my-2 bg-light pt-5">
     <div class="col-3 order-lg-1 text-center circle-img img-circle">
-        <img src="@ViewBag.Avatar" class="mx-auto img-fluid img-circle d-block img-thumbnail" alt="avatar">
+
+        <div class="thumbnail"><svg viewBox="0 0 1 1" width="400" height="400"><image xlink:href="@ViewBag.Avatar" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" /></svg></div>
+        @*<img src="@ViewBag.Avatar" class="mx-auto img-fluid img-circle d-block img-thumbnail" alt="avatar">*@
         <form method="post" action="/Home/UploadImage" enctype="multipart/form-data">
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="picture">
@@ -27,7 +29,7 @@
                    asp-route-id="@Model.UserId"
                    class="btn btn-outline-info">Add to friends</a>
             }
-            else if(!ViewBag.Same)
+            else if (!ViewBag.Same)
             {
                 <a asp-controller="Home"
                    asp-action="RemoveFriend"

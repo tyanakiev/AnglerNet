@@ -149,6 +149,31 @@ body {
     font-size: 12px;
 }
 
+.thumbnail {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+    .thumbnail img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 100%; /*Increase to zoom*/
+        width: auto;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .portrait
+
+    {
+        width: 100%; /*Increase to zoom*/
+        height: auto;
+    }
+
+
 /* CHAT SECTION */
 
 .inbox_people {
