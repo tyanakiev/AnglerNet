@@ -1,0 +1,26 @@
+﻿@model Profile
+
+@if (ViewBag.UserFeed.Count < 1)
+{
+    <div class="card text-center feed">
+        <div class="card-body">
+            <p class="card-text">You have nothing on your wall.</p>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var feed in ViewBag.UserFeed)
+    {
+        <div class="card feed">
+            <div class="card-body">
+                <p class="card-text">@feed.Content</p>
+            </div>
+            <div class="card-footer text-muted feed-footer">
+                <p>Created by: @feed.Sender.User</p>
+                <p>Created: @feed.DateAdded</p>
+                
+            </div>
+        </div>
+    }
+}

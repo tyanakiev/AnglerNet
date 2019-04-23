@@ -13,7 +13,8 @@ namespace AnglerNet.Models
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
             ConversationUserIdOneNavigation = new HashSet<Conversation>();
             ConversationUserIdTwoNavigation = new HashSet<Conversation>();
-            Feed = new HashSet<Feed>();
+            FeedSender = new HashSet<Feed>();
+            FeedUser = new HashSet<Feed>();
             MessageUserIdRecieveNavigation = new HashSet<Message>();
             MessageUserIdSendNavigation = new HashSet<Message>();
             Photo = new HashSet<Photo>();
@@ -47,7 +48,8 @@ namespace AnglerNet.Models
         public ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
         public ICollection<Conversation> ConversationUserIdOneNavigation { get; set; }
         public ICollection<Conversation> ConversationUserIdTwoNavigation { get; set; }
-        public ICollection<Feed> Feed { get; set; }
+        public ICollection<Feed> FeedSender { get; set; }
+        public ICollection<Feed> FeedUser { get; set; }
         public ICollection<Message> MessageUserIdRecieveNavigation { get; set; }
         public ICollection<Message> MessageUserIdSendNavigation { get; set; }
         public ICollection<Photo> Photo { get; set; }

@@ -184,14 +184,23 @@ namespace AnglerNet.Models
 
                 entity.Property(e => e.DateAdded).HasColumnType("date");
 
+                entity.Property(e => e.SenderId)
+                    .HasColumnName("SenderID")
+                    .HasMaxLength(450);
+
                 entity.Property(e => e.UserId)
                     .HasColumnName("UserID")
                     .HasMaxLength(450);
 
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.FeedSender)
+                    .HasForeignKey(d => d.SenderId)
+                    .HasConstraintName("FK__Feed__SenderID__351DDF8C");
+
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Feed)
+                    .WithMany(p => p.FeedUser)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Feed__UserID__1B5E0D89");
+                    .HasConstraintName("FK__Feed__UserID__3429BB53");
             });
 
             modelBuilder.Entity<Message>(entity =>

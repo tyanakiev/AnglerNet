@@ -13,6 +13,7 @@ using AnglerNet.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AnglerNet.Models;
+using AnglerNet.Hubs;
 
 namespace AnglerNet
 {
@@ -59,6 +60,7 @@ namespace AnglerNet
                 options.AddPolicy("User",
                      policy => policy.RequireRole("Admin", "User"));
             });
+            services.AddSignalR();
         }
 
 
@@ -98,7 +100,10 @@ namespace AnglerNet
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<FeedHub>("/FeedHub");
+            });
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -109,6 +114,7 @@ namespace AnglerNet
             });
 
             CreateRoles(serviceProvider).Wait();
+            
         }
     }
 }

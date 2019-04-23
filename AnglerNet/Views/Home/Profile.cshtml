@@ -50,9 +50,9 @@
                 <input type="file" class="custom-file-input" name="picture">
                 <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
-            <input type="submit" value="Upload"/>
+            <input type="submit" value="Upload" />
         </form>
-        
+
     </div>
     <div class="col-lg-8 order-lg-2">
         <div class="tab-content py-4">
@@ -73,33 +73,14 @@
                     <div class="col">
                         <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span>Feed</h5>
                         <div class="input-group feed">
-                            <textarea class="form-control" aria-label="With textarea"></textarea>
+                            <textarea class="form-control" id="feedContent" aria-label="With textarea"></textarea>
+                            <button type="button" id="post-feed" class="btn btn-outline-info btn-lg">Post</button>
                         </div>
                         <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity</h5>
-                        <div class="row">
-                            @if (ViewBag.UserFeed.Count < 1)
-                            {
-                                <div class="card text-center feed">
-                                    <div class="card-body">
-                                        <p class="card-text">You have nothing on your wall.</p>
-                                    </div>
-                                </div>
+                        <div class="row" id="feedList">
+                            @{
+                                await Html.RenderPartialAsync("_PartialFeed", Model);
                             }
-                            else
-                            {
-                                @foreach (var feed in ViewBag.UserFeed)
-                                {
-                                    <div class="card text-center feed">
-                                        <div class="card-body">
-                                            <p class="card-text">@feed.Content</p>
-                                        </div>
-                                        <div class="card-footer text-muted">
-                                            Created: @feed.DateAdded
-                                        </div>
-                                    </div>
-                                }
-                            }
-
                         </div>
                     </div>
                 </div>
@@ -107,5 +88,5 @@
 
         </div>
     </div>
-
+    @Html.HiddenFor(x => x.Id, new { id = "profileId" })
 </div>

@@ -6,6 +6,20 @@
 
 $(document).ready(function () {
 
+    let today = new Date();
+    let dd = today.getDate();
+
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = `0${dd}`;
+    }
+
+    if (mm < 10) {
+        mm = `0${mm}`;
+    }
+    today = `${dd}/${mm}/${yyyy}`;
+
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -19,8 +33,8 @@ $(document).ready(function () {
         contentType: 'json',
         async: false,
         success: function (users) {
-            console.log('Data received: ');
-            console.log(users);
+            //console.log('Data received: ');
+            //console.log(users);
             var friends = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('username'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -46,7 +60,23 @@ $(document).ready(function () {
         }
     });
 
-    
+    $('#post-feed').on('click', function () {
+        var content = $('#feedContent').val();
+        var feedUserID = $('#profileId').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Home/PostFeed',
+            async: false,
+            data: { user: feedUserID, feed: content},
+            success: function (data) {
+                $('#feedList').html(data);
+            }
+        });
+    });
+
+
+
+
 
 });
 

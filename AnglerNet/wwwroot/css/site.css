@@ -145,6 +145,9 @@ body {
     margin-left: 15px;
 }
 
+.feed-footer{
+    font-size: 12px;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
