@@ -3,45 +3,6 @@
     ViewData["Title"] = "Contact";
 }
 
-  @*<div class="row">
-    <div class="col-md-4 mt-5">
-      <img src="~/images/no-image.png"  alt="" class="rounded float-left profile-picture">
-    </div> 
-    <div class="col mt-5">
-      <blockquote>
-          Name: <h6>@Model.Username</h6>
-      </blockquote>
-      <p>
-          Info: @Model.Info
-      </p>
-    </div>
-  </div>
-  <div class="row">
-      @if (ViewBag.UserFeed.Count < 1)
-      {
-          <div class="card text-center feed">
-              <div class="card-body">
-                  <p class="card-text">You have nothing on your wall.</p>
-              </div>
-          </div>
-      }
-      else
-      {
-          @foreach (var feed in ViewBag.UserFeed)
-          {
-              <div class="card text-center feed">
-                  <div class="card-body">
-                      <p class="card-text">@feed.Content</p>
-                  </div>
-                  <div class="card-footer text-muted">
-                      Created: @feed.DateAdded
-                  </div>
-              </div>
-          }
-      }
-
-  </div>*@
-
 <div class="row my-2 bg-light pt-5">
     <div class="col-3 order-lg-1 text-center circle-img img-circle">
         <img src="@ViewBag.Avatar" class="mx-auto img-fluid img-circle d-block img-thumbnail" alt="avatar">
