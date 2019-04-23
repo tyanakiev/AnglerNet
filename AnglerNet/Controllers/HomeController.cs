@@ -23,7 +23,7 @@ namespace AnglerNet.Controllers
             _env = env;
         }
 
-        AnglerNetContext _context = new AnglerNetContext();
+        private AnglerNetContext _context = new AnglerNetContext();
         public IActionResult Index()
         {
             return View();
@@ -33,8 +33,13 @@ namespace AnglerNet.Controllers
         public IActionResult Messages()
         {
             ViewData["Message"] = "Your Messages page.";
-
-            return View();
+            Profile currentProfile = new Profile();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            currentProfile = _context.Profile.Where(o => o.UserId == userId).FirstOrDefault();
+            List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == userId).OrderBy(o => o.DateAdded).ToList();
+            ViewBag.UserFeed = userFeed;
+            ViewBag.Avatar = currentProfile.PictureUrl;
+            return View(currentProfile);
         }
 
 
@@ -71,7 +76,7 @@ namespace AnglerNet.Controllers
         public IActionResult PostFeed(string user, string feed)
         {
             Profile currentProfile = _context.Profile.Where(o => o.Id == Int32.Parse(user)).FirstOrDefault();
-            var senderID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var senderID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Feed newFeed = new Feed();
             newFeed.SenderId = senderID;
             newFeed.UserId = currentProfile.UserId;

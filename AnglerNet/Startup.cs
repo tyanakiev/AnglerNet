@@ -102,7 +102,7 @@ namespace AnglerNet
             app.UseCookiePolicy();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<FeedHub>("/FeedHub");
+                routes.MapHub<ChatHub>("/chatHub");
             });
             app.UseAuthentication();
 
