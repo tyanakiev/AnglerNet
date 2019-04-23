@@ -100,11 +100,48 @@ namespace AnglerNet.Controllers
             currentProfile = _context.Profile.Where(o=>o.UserId == userId).FirstOrDefault();
             List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == userId).OrderBy(o => o.DateAdded).ToList();
             ViewBag.UserFeed = userFeed;
-            ViewBag.Friends = 0;
-            ViewBag.Posts = 0;
-            ViewBag.Locations = 0;
             ViewBag.Avatar = currentProfile.PictureUrl;
+            ViewBag.Same = true;
+            ViewBag.Friends = false;
             return View(currentProfile);
+        }
+
+        public IActionResult FriendRequest(string id)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Profile currProfile = _context.Profile.Where(o => o.UserId == id).FirstOrDefault();
+            Relationship newFriend = new Relationship();
+            newFriend.UserId = currentUserId;
+            newFriend.FriendId = currProfile.UserId;
+            newFriend.Active = true;
+            newFriend.Date = DateTime.Now;
+            _context.Relationship.Add(newFriend);
+            _context.SaveChanges();
+
+            List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == currProfile.UserId).OrderBy(o => o.DateAdded).ToList();
+            ViewBag.UserFeed = userFeed;
+            ViewBag.Avatar = currProfile.PictureUrl;
+            ViewBag.Same = false;
+            ViewBag.Friends = true;
+
+            return Redirect("/Home/Profile/" + currProfile.Id);
+        }
+
+        public IActionResult RemoveFriend(string id)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Profile currProfile = _context.Profile.Where(o => o.UserId == id).FirstOrDefault();
+            Relationship currRelation = _context.Relationship.Where(o => o.UserId == currentUserId && o.FriendId == currProfile.UserId).FirstOrDefault();
+            _context.Relationship.Remove(currRelation);
+            _context.SaveChanges();
+
+            List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == currProfile.UserId).OrderBy(o => o.DateAdded).ToList();
+            ViewBag.UserFeed = userFeed;
+            ViewBag.Avatar = currProfile.PictureUrl;
+            ViewBag.Same = false;
+            ViewBag.Friends = false;
+
+            return Redirect("/Home/Profile/" + currProfile.Id);
         }
 
         [Authorize(Roles = "User")]
@@ -115,10 +152,22 @@ namespace AnglerNet.Controllers
             Profile currentProfile = _context.Profile.Where(o => o.Id == id).FirstOrDefault();
             List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == currentProfile.UserId).OrderBy(o=>o.DateAdded).ToList();
             ViewBag.UserFeed = userFeed;
-            ViewBag.Friends = 0;
-            ViewBag.Posts = 0;
-            ViewBag.Locations = 0;
             ViewBag.Avatar = currentProfile.PictureUrl;
+
+            ViewBag.Same = false;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Profile logedUser = _context.Profile.Where(o => o.UserId == userId).FirstOrDefault();
+            if (logedUser.UserId == currentProfile.UserId)
+            {
+                ViewBag.Same = true;
+            }
+
+            ViewBag.Friends = false;
+            Relationship friends = _context.Relationship.Where(o => o.UserId == logedUser.UserId && o.FriendId == currentProfile.UserId).FirstOrDefault();
+            if (friends != null)
+            {
+                ViewBag.Friends = true;
+            }
             return View(currentProfile);
         }
 

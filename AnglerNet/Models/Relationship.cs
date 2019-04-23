@@ -10,7 +10,6 @@ namespace AnglerNet.Models
         public string FriendId { get; set; }
         public bool Active { get; set; }
         public DateTime Date { get; set; }
-        public int OrderNumber { get; set; }
 
         public AspNetUsers Friend { get; set; }
         public AspNetUsers User { get; set; }

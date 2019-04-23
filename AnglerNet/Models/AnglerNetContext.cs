@@ -315,12 +315,12 @@ namespace AnglerNet.Models
                 entity.HasOne(d => d.Friend)
                     .WithMany(p => p.RelationshipFriend)
                     .HasForeignKey(d => d.FriendId)
-                    .HasConstraintName("FK__Relations__Frien__12C8C788");
+                    .HasConstraintName("FK__Relations__Frien__4830B400");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.RelationshipUser)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Relations__UserI__11D4A34F");
+                    .HasConstraintName("FK__Relations__UserI__473C8FC7");
             });
         }
     }
