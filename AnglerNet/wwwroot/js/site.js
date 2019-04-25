@@ -108,5 +108,18 @@ $(document).ready(function () {
     //    event.preventDefault();
     //});
 
+    $("#messageInput").keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#msgSendBtn").click();
+        }
+    })
+
+    $('#msgSendBtn').on('click', function () {
+        var msg = $('#messageInput').val();
+        $('.msg_history').append('<div class="outgoing_msg"> <div class="sent_msg"> <p>' + msg + '</p> <span class="time_date"> 11:02 AM | April 25</span> </div> </div>');
+        $('#last-msg').text(msg);
+        $('#messageInput').val('');
+    });
+
 });
 

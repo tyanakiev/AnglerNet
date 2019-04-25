@@ -24,10 +24,32 @@ namespace AnglerNet.Controllers
         }
 
         private AnglerNetContext _context = new AnglerNetContext();
+
         public IActionResult Index()
         {
             return View();
         }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public IActionResult PostFeed(string user, string feed)
+        {
+            Profile currentProfile = _context.Profile.Where(o => o.Id == Int32.Parse(user)).FirstOrDefault();
+            var senderID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Feed newFeed = new Feed();
+            newFeed.SenderId = senderID;
+            newFeed.UserId = currentProfile.UserId;
+            newFeed.Content = feed;
+            newFeed.DateAdded = DateTime.Now;
+            _context.Feed.Add(newFeed);
+            _context.SaveChanges();
+
+            currentProfile = _context.Profile.Where(o => o.UserId == newFeed.UserId).FirstOrDefault();
+            List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == newFeed.UserId).OrderBy(o => o.DateAdded).ToList();
+            ViewBag.UserFeed = userFeed;
+            return PartialView("_PartialFeed", currentProfile);
+        }
+
 
         [Authorize(Roles = "User")]
         public IActionResult Messages()
@@ -72,24 +94,6 @@ namespace AnglerNet.Controllers
             return "";
         }
 
-        [HttpPost]
-        public IActionResult PostFeed(string user, string feed)
-        {
-            Profile currentProfile = _context.Profile.Where(o => o.Id == Int32.Parse(user)).FirstOrDefault();
-            var senderID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Feed newFeed = new Feed();
-            newFeed.SenderId = senderID;
-            newFeed.UserId = currentProfile.UserId;
-            newFeed.Content = feed;
-            newFeed.DateAdded = DateTime.Now;
-            _context.Feed.Add(newFeed);
-            _context.SaveChanges();
-
-            currentProfile = _context.Profile.Where(o => o.UserId == newFeed.UserId).FirstOrDefault();
-            List<Feed> userFeed = _context.Feed.Include(o=>o.Sender).Where(o => o.UserId == newFeed.UserId).OrderBy(o => o.DateAdded).ToList();
-            ViewBag.UserFeed = userFeed;
-            return PartialView("_PartialFeed", currentProfile);
-        }
 
         [Authorize(Roles = "User")]
         public IActionResult Profile()
@@ -97,7 +101,7 @@ namespace AnglerNet.Controllers
             ViewData["Message"] = "Your profile page.";
             Profile currentProfile = new Profile();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            currentProfile = _context.Profile.Where(o=>o.UserId == userId).FirstOrDefault();
+            currentProfile = _context.Profile.Include(o=>o.User).Where(o=>o.UserId == userId).FirstOrDefault();
             List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == userId).OrderBy(o => o.DateAdded).ToList();
             ViewBag.UserFeed = userFeed;
             ViewBag.Avatar = currentProfile.PictureUrl;
@@ -149,7 +153,7 @@ namespace AnglerNet.Controllers
         public IActionResult Profile(int id)
         {
             ViewData["Message"] = "Your profile page.";
-            Profile currentProfile = _context.Profile.Where(o => o.Id == id).FirstOrDefault();
+            Profile currentProfile = _context.Profile.Include(o=>o.User).Where(o => o.Id == id).FirstOrDefault();
             List<Feed> userFeed = _context.Feed.Include(o => o.Sender).Where(o => o.UserId == currentProfile.UserId).OrderBy(o=>o.DateAdded).ToList();
             ViewBag.UserFeed = userFeed;
             ViewBag.Avatar = currentProfile.PictureUrl;
